@@ -9,6 +9,8 @@ const env = require('dotenv').config();
 const app = express()
 const port = process.env.PORT || 3000;
 
+const mergeRoute = require('./airtable/router');
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -16,12 +18,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Welcome to the new World');
 })
 
-app.get('/api/merge', (req, res) => {
+app.use('/api', mergeRoute );
 
-    
+//Error Handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+app.use((req, res, next) => {
+    res.status(404).send('Sorry, that route does not exist.');
 });
 
 app.listen(port, () => {

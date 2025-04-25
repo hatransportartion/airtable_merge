@@ -92,6 +92,5 @@ mergeAndSavePDFs(pdfPaths, outputPath)
     });
 
 module.exports = {
-    mergePDFs,
     mergeAndSavePDFs
 };

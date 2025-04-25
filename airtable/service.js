@@ -1,0 +1,59 @@
+const { error } = require("pdf-lib");
+const { getRecordById } = require('./at');
+
+function isEmpty(value) {
+    return (
+        value === undefined ||
+        value === null ||
+        (typeof value === 'string' && value.trim() === '')
+    );
+}
+
+function validateRequestBody(body) {
+    const requiredFields = ["baseID", "tableID", "recordID", "fields", "mergedField"];
+
+    for (let field of requiredFields) {
+        if (!body.hasOwnProperty(field)) {
+            return { valid: false, error: `Missing required field: ${field}` };
+        }
+
+        if (field !== "fields" && isEmpty(body[field])) {
+            return { valid: false, error: `'${field}' cannot be empty` };
+        }
+    }
+
+    if (!Array.isArray(body.fields)) {
+        return { valid: false, error: `'fields' must be an array` };
+    }
+
+    if (body.fields.length < 2) {
+        return { valid: false, error: `'fields' must have at least 2 items` };
+    }
+
+    for (let i = 0; i < body.fields.length; i++) {
+        if (isEmpty(body.fields[i])) {
+            return { valid: false, error: `'fields[${i}]' cannot be empty` };
+        }
+    }
+
+    return { valid: true };
+}
+
+
+async function getAllAttahcmentURL(requestBody){
+    const { baseID, tableID, fields, mergedField, recordID } = requestBody;
+    const pathURLs = [];
+    try {
+        const record = await getRecordById(baseID, tableID, recordID);
+        console.log('Record:', record);
+        return {data: record, error: null};
+    } catch (error) {
+        console.error('Error merging PDFs:', error);
+        return { error: 'Error merging PDFs' };
+    }
+}
+
+module.exports = {
+    validateRequestBody,
+    getAllAttahcmentURL
+};
