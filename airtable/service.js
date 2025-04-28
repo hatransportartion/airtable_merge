@@ -10,6 +10,7 @@ function isEmpty(value) {
 }
 
 function validateRequestBody(body) {
+  console.log("Validating request body -->>", body);
   const requiredFields = [
     "baseID",
     "tableID",

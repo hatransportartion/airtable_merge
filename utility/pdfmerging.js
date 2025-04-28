@@ -17,15 +17,6 @@ async function mergePDFs(pdfPaths, outputPath) {
     }).then((res) => res.arrayBuffer());
     console.log(imageBytes);
 
-    // const response = await axios({
-    //   url: pdfPath.url,
-    //   method: "GET",
-    //   responseType: "stream",
-    // });
-    // console.log(response);
-    // response.data.pipe(fs.createWriteStream(`./${pdfPath.filename}`));
-    // break;
-
     if (
       pdfPath.type === "application/pdf" ||
       pdfPath.type === "image/pdf"
@@ -68,11 +59,6 @@ async function mergePDFs(pdfPaths, outputPath) {
     }
 
     const pdfBytes = await pdfDoc.save();
-    // const pdf = await PDFDocument.load(pdfBytes);
-    // const copiedPages = await pdfDoc.copyPages(pdf, pdf.getPageIndices());
-    // copiedPages.forEach((page) => {
-    //     pdfDoc.addPage(page);
-    // });
   }
 
   const mergedPdfBytes = await pdfDoc.save();
@@ -96,10 +82,10 @@ const pdfPaths = [
     filetype: "application/pdf",
   },
 ];
-const outputPath = "docs/new2.pdf";
 
 async function mergeAndSavePDFs(pdfPaths, outputPath) {
   try {
+    console.logh("Merging and saving PDFs -->> ", pdfPaths, outputPath);
     const mergedFileName = await mergePDFs(pdfPaths, outputPath);
     console.log(
       "PDFs merged successfully. Merged file saved at:",
@@ -111,14 +97,6 @@ async function mergeAndSavePDFs(pdfPaths, outputPath) {
     throw error;
   }
 }
-
-// mergeAndSavePDFs(pdfPaths, outputPath)
-//     .then(mergedFileName => {
-//         console.log(mergedFileName)
-//     })
-//     .catch(error => {
-//         console.log(error)
-//     });
 
 module.exports = {
   mergeAndSavePDFs,

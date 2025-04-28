@@ -7,7 +7,7 @@ const token =
 // const dispatchBase = new Airtable({ apiKey: token }).base(baseID);
 
 async function getRecordById(baseID, tableName, recordId) {
-  console.log(" Getting record by ID: ", baseID, tableName, recordId);
+  console.log(" Getting record by ID -->> ", baseID, tableName, recordId);
   if (!baseID || !tableName || !recordId) {
     throw new Error("Missing required parameters: baseID, tableName, recordId");
   }
@@ -40,7 +40,7 @@ async function getAllRecords(baseID, tableName) {
 
 async function updateCell(baseID, tableName, recordId, fieldName, newValue) {
   try {
-    console.log("Updating cell:", {
+    console.log("Updating cell -->> ", {
       baseID,
       tableName,
       recordId,

@@ -13,11 +13,7 @@ router.post("/merge", async (req, res) => {
   if (!validation.valid) {
     return res.status(400).json({ error: validation.error });
   }
-
-  // const { baseID, tableID, fields, mergedField } = requestBody;
-  console.log(requestBody);
   const pathURLs = await getAllAttahcmentURL(requestBody);
-  console.log(pathURLs);
   mergeAndSavePDFs(pathURLs.data, `docs/${requestBody.recordID}.pdf`)
     .then(() => {
       console.log("PDFs merged successfully.");

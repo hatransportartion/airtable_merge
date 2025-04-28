@@ -21,6 +21,12 @@ app.get('/', (req, res) => {
   res.send('Welcome to the new World');
 })
 
+//LOg middleware
+app.use((req, res, next) => {
+  console.log(`${new Date().toString()} ${req.method} ${req.url}`);
+  next();
+});
+
 app.use('/api', mergeRoute );
 
 //Error Handler
