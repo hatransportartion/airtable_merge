@@ -18,9 +18,22 @@ router.post("/merge", async (req, res) => {
   console.log(requestBody);
   const pathURLs = await getAllAttahcmentURL(requestBody);
   console.log(pathURLs);
-  mergeAndSavePDFs(pathURLs.data, "docs/new3.pdf")
+  mergeAndSavePDFs(pathURLs.data, `docs/${requestBody.recordId}.pdf`)
     .then(() => {
       console.log("PDFs merged successfully.");
+      // Update the Airtable record with the merged PDF URL
+      const recordId = requestBody.recordId;
+      const mergedField = requestBody.mergedField;
+      const mergedPDFUrl = `http://104.154.99.30/docs/${requestBody.recordId}.pdf`;
+      const fieldsToUpdate = {
+        [mergedField]: [
+          {
+            url: mergedPDFUrl,
+          },
+        ],
+      };
+      updateMultipleCells(requestBody.baseID, requestBody.tableID, recordId, fieldsToUpdate);
+      console.log("Record updated with merged PDF URL:", mergedPDFUrl);
       return res.status(200).send(requestBody);
     })
     .catch((error) => {
