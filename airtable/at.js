@@ -40,6 +40,18 @@ async function getAllRecords(baseID, tableName) {
 
 async function updateCell(baseID, tableName, recordId, fieldName, newValue) {
   try {
+    console.log("Updating cell:", {
+      baseID,
+      tableName,
+      recordId,
+      fieldName,
+      newValue,
+    });
+    if (!baseID || !tableName || !recordId || !fieldName || newValue === undefined) {
+      throw new Error(
+        "Missing required parameters: baseID, tableName, recordId, fieldName, newValue"
+      );
+    }
     const base = new Airtable({ apiKey: token }).base(baseID);
     const updatedRecord = await base(tableName).update(recordId, {
       [fieldName]: newValue,
@@ -90,7 +102,7 @@ async function test() {
     return;
   }
 }
-test();
+// test();
 
 module.exports = {
   getRecordById,
