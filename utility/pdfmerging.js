@@ -85,7 +85,7 @@ const pdfPaths = [
 
 async function mergeAndSavePDFs(pdfPaths, outputPath) {
   try {
-    console.logh("Merging and saving PDFs -->> ", pdfPaths, outputPath);
+    console.log("Merging and saving PDFs -->> ", pdfPaths, outputPath);
     const mergedFileName = await mergePDFs(pdfPaths, outputPath);
     console.log(
       "PDFs merged successfully. Merged file saved at:",
