@@ -5,6 +5,10 @@ const { PDFDocument } = require("pdf-lib");
 
 async function mergePDFs(pdfPaths, outputPath) {
   console.log("MergePDFs --->> ", pdfPaths, outputPath);
+  console.log("Array Length: ", pdfPaths.length);
+  if (pdfPaths.length === 0) {
+    throw new Error("No PDF paths provided");
+  }
   const pdfDoc = await PDFDocument.create();
 
   for (const pdfPath of pdfPaths) {
@@ -23,9 +27,10 @@ async function mergePDFs(pdfPaths, outputPath) {
     // break;
 
     if (
-      pdfPath.filetype === "application/pdf" ||
-      pdfPath.filetype === "image/pdf"
+      pdfPath.type === "application/pdf" ||
+      pdfPath.type === "image/pdf"
     ) {
+      
       const pdfDocToMerge = await PDFDocument.load(imageBytes);
       const copiedPages = await pdfDoc.copyPages(
         pdfDocToMerge,
@@ -35,8 +40,8 @@ async function mergePDFs(pdfPaths, outputPath) {
         pdfDoc.addPage(page);
       });
     } else if (
-      pdfPath.filetype === "image/jpeg" ||
-      pdfPath.filetype === "image/jpg"
+      pdfPath.type === "image/jpeg" ||
+      pdfPath.type === "image/jpg"
     ) {
       const jpgImageBytes = await pdfDoc.embedJpg(imageBytes);
       const jpgDims = jpgImageBytes.scale(0.5);
@@ -47,7 +52,7 @@ async function mergePDFs(pdfPaths, outputPath) {
         width: jpgDims.width,
         height: jpgDims.height,
       });
-    } else if (pdfPath.filetype === "image/png") {
+    } else if (pdfPath.type === "image/png") {
       const pngImage = await pdfDoc.embedPng(imageBytes);
       const pngDims = pngImage.scale(0.5);
       const page = pdfDoc.addPage([pngDims.width, pngDims.height]);
