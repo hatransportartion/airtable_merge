@@ -23,7 +23,11 @@ app.get('/', (req, res) => {
 
 //LOg middleware
 app.use((req, res, next) => {
-  console.log(`${new Date().toString()} ${req.method} ${req.url}`);
+  //log date in PST format
+  const date = new Date();
+  const options = { timeZone: 'America/Los_Angeles', hour12: false };
+  const dateString = date.toLocaleString('en-US', options);
+  console.log(`${dateString} ${req.method} ${req.url}`);
   next();
 });
 

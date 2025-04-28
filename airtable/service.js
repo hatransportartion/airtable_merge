@@ -46,6 +46,11 @@ function validateRequestBody(body) {
   return { valid: true };
 }
 
+function validateMerge2RequestBody(body) {
+  console.log("Validating Merge2 request body -->>", body);
+  
+}
+
 async function getAllAttahcmentURL(requestBody) {
   console.log("Get All Attachment -> ", requestBody);
   const { baseID, tableID, fields, mergedField, recordID } = requestBody;

@@ -37,4 +37,33 @@ router.post("/merge", async (req, res) => {
     });
 });
 
+router.post("/merge2", async (req, res) => {
+  const requestBody = req.body;
+  mergeAndSavePDFs(requestBody.docURLS, `docs/${requestBody.recordID}.pdf`)
+    .then(() => {
+      console.log("PDFs merged successfully.");
+      // Update the Airtable record with the merged PDF URL
+      const recordId = requestBody.recordID;
+      //const mergedField = requestBody.mergedField;
+      const mergedPDFUrl = `http://104.154.99.30/docs/${requestBody.recordID}.pdf`;
+      const newValue = [
+        {
+          url: mergedPDFUrl,
+          filename: `${requestBody.recordID}.pdf`,
+        },
+      ]
+      // updateCell(requestBody.baseID, requestBody.tableID, recordId, requestBody.mergedField, newValue);
+      console.log("Record updated with merged PDF URL:", mergedPDFUrl);
+      const response = {
+        message: "PDFs merged successfully",
+        mergedPDFUrl: mergedPDFUrl,
+      };
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      console.error("Error merging PDFs:", error);
+      return res.status(500).json({ error: "Error merging PDFs" });
+    });
+});
+
 module.exports = router;
