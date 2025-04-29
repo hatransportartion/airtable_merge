@@ -39,7 +39,7 @@ router.post("/merge", async (req, res) => {
 
 router.post("/merge2", async (req, res) => {
   const requestBody = req.body;
-  mergeAndSavePDFs(requestBody.docURLS, `docs/${requestBody.recordID}.pdf`)
+  mergeAndSavePDFs(requestBody.docURLs, `docs/${requestBody.recordID}.pdf`)
     .then(() => {
       console.log("PDFs merged successfully.");
       // Update the Airtable record with the merged PDF URL
@@ -53,10 +53,11 @@ router.post("/merge2", async (req, res) => {
         },
       ]
       // updateCell(requestBody.baseID, requestBody.tableID, recordId, requestBody.mergedField, newValue);
-      console.log("Record updated with merged PDF URL:", mergedPDFUrl);
+      console.log("Merged PDF URL: ", mergedPDFUrl);
       const response = {
+        status: "success",
         message: "PDFs merged successfully",
-        mergedPDFUrl: mergedPDFUrl,
+        url: mergedPDFUrl,
       };
       res.status(200).json(response);
     })

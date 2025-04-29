@@ -78,30 +78,30 @@ async function updateMultipleCells(
     console.error("Error updating record:", error);
   }
 }
-async function test() {
-  // const res = await  getRecordById({baseID: 'appFZQtRfsGDkCun4', tableName: '🐯 Master 🐯', recordId: 'rec3xr9ZJbzgN0hC'});
-  // console.log(res);
-  const baseId = "appFZQtRfsGDkCun4";
-  const tableIdOrName = "🐯 Master 🐯";
-  const tableID = "tblO5X9igZQEzaWfw";
-  const recordId = "rec3xr9ZJbzgN0hC";
-  const token = process.env.AIRTABLE_API_KEY;
-  console.log("token:", token);
-  const URL = `https://api.airtable.com/v0/${baseId}/${tableID}/${recordId}`;
-  console.log("URL:", URL);
-  const res = await fetch(URL, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-  });
-  console.log(res);
-  if (!res.ok) {
-    console.error("Error fetching record:", res.statusText);
-    return;
-  }
-}
+// async function test() {
+//   // const res = await  getRecordById({baseID: 'appFZQtRfsGDkCun4', tableName: '🐯 Master 🐯', recordId: 'rec3xr9ZJbzgN0hC'});
+//   // console.log(res);
+//   const baseId = "appFZQtRfsGDkCun4";
+//   const tableIdOrName = "🐯 Master 🐯";
+//   const tableID = "tblO5X9igZQEzaWfw";
+//   const recordId = "rec3xr9ZJbzgN0hC";
+//   // const token = process.env.AIRTABLE_API_KEY;
+//   console.log("token:", token);
+//   const URL = `https://api.airtable.com/v0/${baseId}/${tableID}/${recordId}`;
+//   console.log("URL:", URL);
+//   const res = await fetch(URL, {
+//     method: "GET",
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//       "Content-Type": "application/json",
+//     },
+//   });
+//   console.log(res);
+//   if (!res.ok) {
+//     console.error("Error fetching record:", res.statusText);
+//     return;
+//   }
+// }
 // test();
 
 module.exports = {
