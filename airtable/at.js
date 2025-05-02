@@ -1,10 +1,6 @@
 const Airtable = require("airtable");
 const env = require("dotenv").config();
-const token =
-  "patjpjS0rpdYNGj3k.e5150247a09d09f6a4b559e63475aec678a016eb2e0cd894ceac62674ada3cd4";
-// const token = process.env.AIRTABLE_API_KEY;
-// const baseID = 'appFZQtRfsGDkCun4';
-// const dispatchBase = new Airtable({ apiKey: token }).base(baseID);
+const token = process.env.AIRTABLE_API_KEY;
 
 async function getRecordById(baseID, tableName, recordId) {
   console.log(" Getting record by ID -->> ", baseID, tableName, recordId);
@@ -103,6 +99,37 @@ async function updateMultipleCells(
 //   }
 // }
 // test();
+
+//Update Field type to RollUp
+async function updateFieldType(
+  baseID,
+  tableName,
+  fieldName,
+  newFieldType,
+  options = {}
+) {
+  try {
+    const base = new Airtable({ apiKey: token }).base(baseID);
+    const table = base(tableName);
+    const field = await table.find(fieldName);
+    const options = {
+      isValid: true,
+      recordLinkFieldId: "fldPSPDqsKnUyigCf",
+      fieldIdInLinkedTable: "fldZZpD32Df5n3Zxs",
+      isComputed: true,
+      aggregationFunction: "SUM",
+      aggregationFormula: "SUM(values)",
+    }
+    const updatedField = await table.updateField(field.id, {
+      type: newFieldType,
+      options: options,
+    });
+  } catch (error) {
+    console.error("Error updating field type:", error);
+  }
+}
+
+//updateFieldType("app0c4crVcYRg8uwQ", "tbl8CErhqpvcibTu3", "DOT (from HA Truck Payroll 💵)", "rollup", )
 
 module.exports = {
   getRecordById,
