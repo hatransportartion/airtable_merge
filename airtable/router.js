@@ -19,6 +19,8 @@ router.post("/merge", async (req, res) => {
   const docDirectoryPath = '/home/app/docs';
   const outputFilePath = `docs/${requestBody.recordID}.pdf`;
   const NODE_ENV = process.env.NODE_ENV === 'prod' || 'local';
+  console.log("NODE_ENV: ", NODE_ENV);
+  console.log("Output File Path: ", outputFilePath);
   if(NODE_ENV === 'prod') {
     outputFilePath = `${docDirectoryPath}/${requestBody.recordID}.pdf`;
   }
