@@ -45,7 +45,7 @@ router.post("/merge2", async (req, res) => {
       // Update the Airtable record with the merged PDF URL
       const recordId = requestBody.recordID;
       //const mergedField = requestBody.mergedField;
-      const mergedPDFUrl = `http://104.154.99.30/docs/${requestBody.recordID}.pdf`;
+      const mergedPDFUrl = `https://api.handatransportation.com/docs/${requestBody.recordID}.pdf`;
       const newValue = [
         {
           url: mergedPDFUrl,
