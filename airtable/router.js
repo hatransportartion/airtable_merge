@@ -1,6 +1,7 @@
 //Router for merge api /api/merge
 const express = require("express");
 const router = express.Router();
+const dotenv = require("dotenv").config();
 
 const { mergeAndSavePDFs } = require("../utility/pdfmerging");
 const { validateRequestBody, getAllAttahcmentURL } = require("./service");
@@ -14,7 +15,15 @@ router.post("/merge", async (req, res) => {
     return res.status(400).json({ error: validation.error });
   }
   const pathURLs = await getAllAttahcmentURL(requestBody);
-  mergeAndSavePDFs(pathURLs.data, `docs/${requestBody.recordID}.pdf`)
+
+  const docDirectoryPath = '/home/app/docs';
+  const outputFilePath = `docs/${requestBody.recordID}.pdf`;
+  const NODE_ENV = process.env.NODE_ENV === 'prod' || 'local';
+  if(NODE_ENV === 'prod') {
+    outputFilePath = `${docDirectoryPath}/${requestBody.recordID}.pdf`;
+  }
+
+  mergeAndSavePDFs(pathURLs.data, outputFilePath)
     .then(() => {
       console.log("PDFs merged successfully.");
       // Update the Airtable record with the merged PDF URL
@@ -39,7 +48,14 @@ router.post("/merge", async (req, res) => {
 
 router.post("/merge2", async (req, res) => {
   const requestBody = req.body;
-  mergeAndSavePDFs(requestBody.docURLs, `docs/${requestBody.recordID}.pdf`)
+  const docDirectoryPath = '/home/app/docs';
+  const outputFilePath = `docs/${requestBody.recordID}.pdf`;
+  const NODE_ENV = process.env.NODE_ENV === 'prod' || 'local';
+  if(NODE_ENV === 'prod') {
+    outputFilePath = `${docDirectoryPath}/${requestBody.recordID}.pdf`;
+  }
+
+  mergeAndSavePDFs(requestBody.docURLs, outputFilePath)
     .then(() => {
       console.log("PDFs merged successfully.");
       // Update the Airtable record with the merged PDF URL
