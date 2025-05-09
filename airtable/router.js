@@ -60,7 +60,11 @@ router.post("/merge2", asyncHandler(async (req, res) => {
   }
   console.log("Output File Path: ", outputFilePath);
   const resp = await mergeAndSavePDFs(requestBody.docURLs, outputFilePath)
-    
+  res.status(200).json({
+    message: "PDFs merged successfully",
+    data: resp,
+  });
+  console.log("PDFs merged successfully.");
 }));
 
 module.exports = router;
