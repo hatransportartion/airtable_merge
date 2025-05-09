@@ -10,7 +10,7 @@ const env = require('dotenv').config();
 const app = express()
 const port = process.env.PORT || 3000;
 
-const mergeRoute = require('./airtable/router');
+const mergeRoute = require('./router');
 
 // Middleware
 app.use(helmet());

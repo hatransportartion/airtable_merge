@@ -3,7 +3,8 @@ const router = express.Router();
 const dotenv = require("dotenv").config();
 const asyncHandler = require('express-async-handler');
 
-const { mergeAndSavePDFs } = require("../utility/pdfmerging");
+const { mergeAndSavePDFs } = require("./utility/pdfmerging");
+const { generateUniqueFilename } = require("./utility/service");
 // const { validateRequestBody, getAllAttahcmentURL } = require("./service");
 // const { getRecordById, getAllRecords, updateCell, updateMultipleCells } = require('./at');
 
@@ -49,14 +50,14 @@ const { mergeAndSavePDFs } = require("../utility/pdfmerging");
 
 router.post("/merge2", asyncHandler(async (req, res) => {
   const requestBody = req.body;
-  
-  let outputFilePath = `/home/app/docs/${requestBody.recordID}.pdf`;
+  const fileName = generateUniqueFilename();
+  let outputFilePath = `/home/app/docs/${fileName}.pdf`;
   console.log(process.env.NODE_ENV);
   const NODE_ENV = process.env.NODE_ENV || 'local';
   console.log("NODE_ENV: ", NODE_ENV);
   console.log("Output File Path: ", outputFilePath);
   if(NODE_ENV === 'local') {
-    outputFilePath = `docs/${requestBody.recordID}.pdf`;
+    outputFilePath = `docs/${fileName}.pdf`;
   }
   console.log("Output File Path: ", outputFilePath);
   const resp = await mergeAndSavePDFs(requestBody.docURLs, outputFilePath)

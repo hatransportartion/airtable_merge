@@ -1,4 +1,6 @@
-const { getRecordById } = require("./at");
+const { getRecordById } = require("../airtable/at");
+const path = require("path");
+const uuidv4 = require("uuid").v4;
 
 //Check if the value is empty, undefined or null
 function isEmpty(value) {
@@ -62,7 +64,13 @@ async function getAllAttahcmentURL(requestBody) {
   }
 }
 
+function generateUniqueFilename() {
+  const uniqueId = uuidv4();  // Generate unique UUID
+  return `${uniqueId}.pdf`;  // Combine UUID with the file extension
+}
+
 module.exports = {
   validateRequestBody,
   getAllAttahcmentURL,
+  generateUniqueFilename
 };
