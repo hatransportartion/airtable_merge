@@ -61,9 +61,13 @@ async function mergePDFs(pdfPaths, outputPath) {
 
   const mergedPdfBytes = await pdfDoc.save();
 
-  fs.writeFileSync(outputPath, mergedPdfBytes);
+  //sanitize the output path
+  const sanitizedOutputPath = outputPath.replace(/[^a-zA-Z0-9_.-]/g, "_");
+  console.log("Sanitized Output Path: ", sanitizedOutputPath);
 
-  return outputPath;
+  fs.writeFileSync(sanitizedOutputPath, mergedPdfBytes);
+
+  return sanitizedOutputPath;
 }
 
 async function mergeAndSavePDFs(pdfPaths, outputPath) {
