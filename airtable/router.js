@@ -16,13 +16,12 @@ router.post("/merge", async (req, res) => {
   }
   const pathURLs = await getAllAttahcmentURL(requestBody);
 
-  const docDirectoryPath = '/home/app/docs';
-  const outputFilePath = `docs/${requestBody.recordID}.pdf`;
-  const NODE_ENV = process.env.NODE_ENV === 'prod' || 'local';
+  const outputFilePath = `/home/app/docs/${requestBody.recordID}.pdf`;
+  const NODE_ENV = process.env.NODE_ENV === 'local' || 'prod';
   console.log("NODE_ENV: ", NODE_ENV);
   console.log("Output File Path: ", outputFilePath);
-  if(NODE_ENV === 'prod') {
-    outputFilePath = `${docDirectoryPath}/${requestBody.recordID}.pdf`;
+  if(NODE_ENV === 'local') {
+    outputFilePath = `docs/${requestBody.recordID}.pdf`;
   }
 
   mergeAndSavePDFs(pathURLs.data, outputFilePath)
@@ -50,11 +49,13 @@ router.post("/merge", async (req, res) => {
 
 router.post("/merge2", async (req, res) => {
   const requestBody = req.body;
-  const docDirectoryPath = '/home/app/docs';
-  const outputFilePath = `docs/${requestBody.recordID}.pdf`;
-  const NODE_ENV = process.env.NODE_ENV === 'prod' || 'local';
-  if(NODE_ENV === 'prod') {
-    outputFilePath = `${docDirectoryPath}/${requestBody.recordID}.pdf`;
+  
+  const outputFilePath = `/home/app/docs/${requestBody.recordID}.pdf`;
+  const NODE_ENV = process.env.NODE_ENV === 'local' || 'prod';
+  console.log("NODE_ENV: ", NODE_ENV);
+  console.log("Output File Path: ", outputFilePath);
+  if(NODE_ENV === 'local') {
+    outputFilePath = `docs/${requestBody.recordID}.pdf`;
   }
 
   mergeAndSavePDFs(requestBody.docURLs, outputFilePath)
