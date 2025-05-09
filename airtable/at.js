@@ -1,11 +1,12 @@
 const Airtable = require("airtable");
 const env = require("dotenv").config();
-const token = process.env.AIRTABLE_API_KEY;
+const token = process.env.AIRTABLE_API_KEY || '';
 
 async function getRecordById(baseID, tableName, recordId) {
   console.log(" Getting record by ID -->> ", baseID, tableName, recordId);
   if (!baseID || !tableName || !recordId) {
-    throw new Error("Missing required parameters: baseID, tableName, recordId");
+    console.error("Missing required parameters: baseID, tableName, recordId");
+    throw new Error("Internal Server Error");
   }
   console.log("Base ID:", baseID);
   console.log("Table Name:", tableName);
@@ -14,23 +15,25 @@ async function getRecordById(baseID, tableName, recordId) {
     const base = new Airtable({ apiKey: token }).base(baseID);
     console.log("Base ID:", base);
     const record = await base(tableName).find(recordId);
-    console.log("Record:", record);
 
     return record;
   } catch (error) {
-    console.error("Error fetching record:", error);
-    throw error;
+    console.error("Error: ", error.message);
+    throw new Error("Internal Server Error");
   }
 }
 
 async function getAllRecords(baseID, tableName) {
   try {
+    if(token === undefined) {
+      throw new Error("Internal Server Error");
+    }
     const base = new Airtable({ apiKey: token }).base(baseID);
     const records = await base(tableName).select().all();
     return records;
   } catch (error) {
-    console.error("Error fetching records:", error);
-    throw error;
+    console.error("Error:", error.message);
+    throw new Error("Internal Server Error");
   }
 }
 

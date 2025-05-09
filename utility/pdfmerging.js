@@ -1,6 +1,4 @@
 const fs = require("fs");
-const path = require("path");
-const axios = require("axios");
 const { PDFDocument } = require("pdf-lib");
 
 async function mergePDFs(pdfPaths, outputPath) {
@@ -67,21 +65,6 @@ async function mergePDFs(pdfPaths, outputPath) {
 
   return outputPath;
 }
-
-const pdfPaths = [
-  {
-    url: "https://pdf-lib.js.org/assets/cat_riding_unicorn.jpg",
-    filetype: "image/jpeg",
-  },
-  {
-    url: "https://pdf-lib.js.org/assets/minions_banana_alpha.png",
-    filetype: "image/png",
-  },
-  {
-    url: "https://pdf-lib.js.org/assets/american_flag.pdf",
-    filetype: "application/pdf",
-  },
-];
 
 async function mergeAndSavePDFs(pdfPaths, outputPath) {
   try {

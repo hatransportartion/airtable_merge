@@ -1,6 +1,6 @@
-const { error } = require("pdf-lib");
 const { getRecordById } = require("./at");
 
+//Check if the value is empty, undefined or null
 function isEmpty(value) {
   return (
     value === undefined ||
@@ -9,6 +9,7 @@ function isEmpty(value) {
   );
 }
 
+//
 function validateRequestBody(body) {
   console.log("Validating request body -->>", body);
   const requiredFields = [
@@ -44,11 +45,6 @@ function validateRequestBody(body) {
   }
 
   return { valid: true };
-}
-
-function validateMerge2RequestBody(body) {
-  console.log("Validating Merge2 request body -->>", body);
-  
 }
 
 async function getAllAttahcmentURL(requestBody) {
