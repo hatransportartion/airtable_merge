@@ -2,7 +2,7 @@ const fs = require("fs");
 const { PDFDocument } = require("pdf-lib");
 
 async function mergePDFs(pdfPaths, outputPath) {
-  console.log("MergePDFs --->> ", pdfPaths, outputPath);
+  console.log("MergePDFs --->> ", pdfPaths);
   console.log("Array Length: ", pdfPaths.length);
   if (pdfPaths.length === 0) {
     throw new Error("No PDF paths provided");
@@ -68,7 +68,7 @@ async function mergePDFs(pdfPaths, outputPath) {
 
 async function mergeAndSavePDFs(pdfPaths, outputPath) {
   try {
-    console.log("Merging and saving PDFs -->> ", pdfPaths, outputPath);
+    console.log("Merging and saving PDFs -->> ", outputPath);
     const mergedFileName = await mergePDFs(pdfPaths, outputPath);
     console.log(
       "PDFs merged successfully. Merged file saved at:",

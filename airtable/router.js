@@ -50,14 +50,15 @@ const { mergeAndSavePDFs } = require("../utility/pdfmerging");
 router.post("/merge2", asyncHandler(async (req, res) => {
   const requestBody = req.body;
   
-  const outputFilePath = `/home/app/docs/${requestBody.recordID}.pdf`;
+  let outputFilePath = `/home/app/docs/${requestBody.recordID}.pdf`;
+  console.log(process.env.NODE_ENV);
   const NODE_ENV = process.env.NODE_ENV === 'local' || 'prod';
   console.log("NODE_ENV: ", NODE_ENV);
   console.log("Output File Path: ", outputFilePath);
-  if(NODE_ENV === 'local') {
+  if(NODE_ENV) {
     outputFilePath = `docs/${requestBody.recordID}.pdf`;
   }
-
+  console.log("Output File Path: ", outputFilePath);
   const resp = await mergeAndSavePDFs(requestBody.docURLs, outputFilePath)
     
 }));
