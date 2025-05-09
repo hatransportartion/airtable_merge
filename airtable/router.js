@@ -52,10 +52,10 @@ router.post("/merge2", asyncHandler(async (req, res) => {
   
   let outputFilePath = `/home/app/docs/${requestBody.recordID}.pdf`;
   console.log(process.env.NODE_ENV);
-  const NODE_ENV = process.env.NODE_ENV === 'local' || 'prod';
+  const NODE_ENV = process.env.NODE_ENV || 'local';
   console.log("NODE_ENV: ", NODE_ENV);
   console.log("Output File Path: ", outputFilePath);
-  if(NODE_ENV) {
+  if(NODE_ENV === 'local') {
     outputFilePath = `docs/${requestBody.recordID}.pdf`;
   }
   console.log("Output File Path: ", outputFilePath);
